@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAFSA Timeline Generator - My College Finance</title>
+    <style>
+        /* MCF CSS Variables - ALWAYS INCLUDE */
+        :root {
+            --mcf-brand-blue: #012699;
+            --mcf-brand-green: #26e011;
+            --mcf-brand-amber: #fdc003;
+            --mcf-brand-black: #000516;
+            --mcf-background: #fafafa;
+            --mcf-foreground: #09090b;
+            --mcf-card: #ffffff;
+            --mcf-card-foreground: #09090b;
+            --mcf-popover: #ffffff;
+            --mcf-popover-foreground: #09090b;
+            --mcf-primary: #336bff;
+            --mcf-primary-foreground: #f8fafc;
+            --mcf-secondary: #f1f5f9;
+            --mcf-secondary-foreground: #64748b;
+            --mcf-muted: #f1f5f9;
+            --mcf-muted-foreground: #64748b;
+            --mcf-accent: #f1f5f9;
+            --mcf-accent-foreground: #64748b;
+            --mcf-destructive: #ef4444;
+            --mcf-destructive-foreground: #f8fafc;
+            --mcf-border: #e2e8f0;
+            --mcf-input: #e2e8f0;
+            --mcf-ring: #09090b;
+            --mcf-radius: 0.5rem;
+            --mcf-transition: all 0.3s ease;
+        }
+
+        /* Dark Mode Color Scheme */
+        body.dark-mode {
+            --mcf-background: #09090b;
+            --mcf-foreground: #ffffff;
+            --mcf-card: #1a1a1f;
+            --mcf-card-foreground: #ffffff;
+            --mcf-popover: #09090b;
+            --mcf-popover-foreground: #ffffff;
+            --mcf-primary: #4c6ef5;
+            --mcf-primary-foreground: #ffffff;
+            --mcf-secondary: #374151;
+            --mcf-secondary-foreground: #ffffff;
+            --mcf-muted: #1c1917;
+            --mcf-muted-foreground: #e2e8f0;
+            --mcf-accent: #374151;
+            --mcf-accent-foreground: #ffffff;
+            --mcf-destructive: #ef4444;
+            --mcf-destructive-foreground: #ffffff;
+            --mcf-border: #374151;
+            --mcf-input: #1f2937;
+            --mcf-ring: #ffffff;
+            --mcf-brand-blue: #3b82f6;
+            --mcf-brand-green: #22c55e;
+            --mcf-brand-amber: #f59e0b;
+            --mcf-brand-black: #ffffff;
+        }
+
+        /* System font stack */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+                         'Helvetica Neue', Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: var(--mcf-background);
+            color: var(--mcf-foreground);
+            transition: var(--mcf-transition);
+        }
+
+        /* Container */
+        .mcf-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Header */
+        .mcf-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--mcf-border);
+            position: relative;
+        }
+
+        .mcf-logo {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin: 0 auto 1.5rem;
+            display: block;
+        }
+
+        .mcf-brand-name {
+            font-size: 1.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--mcf-brand-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .mcf-tagline {
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--mcf-muted-foreground);
+        }
+
+        .mcf-title {
+            font-size: 2.25rem;
+            font-weight: 900;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            margin: 1.5rem 0 1rem;
+            background: linear-gradient(135deg, var(--mcf-brand-blue), var(--mcf-primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .mcf-subtitle {
+            font-size: 1.125rem;
+            color: var(--mcf-muted-foreground);
+            margin-bottom: 1rem;
+        }
+
+        /* Dark Mode Toggle */
+        .mcf-theme-toggle {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            border: 2px solid var(--mcf-border);
+            background: var(--mcf-card);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--mcf-transition);
+            color: var(--mcf-foreground);
+        }
+
+        .mcf-theme-toggle:hover {
+            border-color: var(--mcf-primary);
+            transform: scale(1.1);
+        }
+
+        .mcf-sun-icon,
+        .mcf-moon-icon {
+            position: absolute;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Input Section */
+        .input-section {
+            background: var(--mcf-card);
+            border: 2px solid var(--mcf-border);
+            border-radius: calc(var(--mcf-radius) * 1.5);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .input-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--mcf-brand-blue);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--mcf-foreground);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 1rem;
+            background-color: var(--mcf-background);
+            color: var(--mcf-foreground);
+            border: 2px solid var(--mcf-input);
+            border-radius: var(--mcf-radius);
+            transition: var(--mcf-transition);
+            font-family: inherit;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--mcf-primary);
+            box-shadow: 0 0 0 3px rgba(51, 107, 255, 0.1);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 1rem;
+            background-color: var(--mcf-background);
+            color: var(--mcf-foreground);
+            border: 2px solid var(--mcf-input);
+            border-radius: var(--mcf-radius);
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            transition: var(--mcf-transition);
+            cursor: pointer;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: var(--mcf-primary);
+            box-shadow: 0 0 0 3px rgba(51, 107, 255, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .checkbox {
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid var(--mcf-input);
+            border-radius: calc(var(--mcf-radius) * 0.5);
+            appearance: none;
+            cursor: pointer;
+            transition: var(--mcf-transition);
+            position: relative;
+        }
+
+        .checkbox:checked {
+            background-color: var(--mcf-primary);
+            border-color: var(--mcf-primary);
+        }
+
+        .checkbox:checked::after {
+            content: "✓";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .checkbox:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(51, 107, 255, 0.1);
+        }
+
+        /* Timeline Section */
+        .timeline-section {
+            background: var(--mcf-card);
+            border: 2px solid var(--mcf-border);
+            border-radius: calc(var(--mcf-radius) * 1.5);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--mcf-brand-blue);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .timeline-container {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 1rem;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--mcf-brand-blue), var(--mcf-brand-green));
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 2rem;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -1.75rem;
+            top: 0.5rem;
+            width: 1rem;
+            height: 1rem;
+            background: var(--mcf-brand-blue);
+            border: 3px solid var(--mcf-card);
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        .timeline-dot.priority {
+            background: var(--mcf-brand-amber);
+        }
+
+        .timeline-dot.deadline {
+            background: var(--mcf-destructive);
+        }
+
+        .timeline-content {
+            background: var(--mcf-background);
+            border: 1px solid var(--mcf-border);
+            border-radius: var(--mcf-radius);
+            padding: 1.5rem;
+            transition: var(--mcf-transition);
+        }
+
+        .timeline-content:hover {
+            border-color: var(--mcf-brand-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-date {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--mcf-brand-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title-text {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--mcf-foreground);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-description {
+            color: var(--mcf-muted-foreground);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .timeline-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: calc(var(--mcf-radius) * 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .timeline-tag.priority {
+            background: rgba(253, 192, 3, 0.1);
+            color: var(--mcf-brand-amber);
+            border: 1px solid var(--mcf-brand-amber);
+        }
+
+        .timeline-tag.deadline {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--mcf-destructive);
+            border: 1px solid var(--mcf-destructive);
+        }
+
+        .timeline-tag.optional {
+            background: rgba(100, 116, 139, 0.1);
+            color: var(--mcf-muted-foreground);
+            border: 1px solid var(--mcf-muted-foreground);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .mcf-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: var(--mcf-radius);
+            transition: var(--mcf-transition);
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            font-family: inherit;
+            gap: 0.5rem;
+        }
+
+        .mcf-btn-primary {
+            background-color: var(--mcf-primary);
+            color: var(--mcf-primary-foreground);
+        }
+
+        .mcf-btn-primary:hover {
+            background-color: var(--mcf-brand-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .mcf-btn-success {
+            background-color: var(--mcf-brand-green);
+            color: var(--mcf-brand-black);
+        }
+
+        .mcf-btn-success:hover {
+            background-color: #1fb80d;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(38, 224, 17, 0.2);
+        }
+
+        .mcf-btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--mcf-border);
+            color: var(--mcf-foreground);
+        }
+
+        .mcf-btn-outline:hover {
+            border-color: var(--mcf-primary);
+            background-color: rgba(51, 107, 255, 0.05);
+        }
+
+        /* Footer */
+        .mcf-footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--mcf-border);
+        }
+
+        .mcf-footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .mcf-footer-link {
+            color: var(--mcf-muted-foreground);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.3s ease;
+        }
+
+        .mcf-footer-link:hover {
+            color: var(--mcf-brand-blue);
+            text-decoration: underline;
+        }
+
+        .mcf-copyright {
+            font-size: 0.75rem;
+            color: var(--mcf-muted-foreground);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .mcf-title {
+                font-size: 1.75rem;
+            }
+
+            .input-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-container {
+                padding-left: 1.5rem;
+            }
+
+            .timeline-line {
+                left: 0.75rem;
+            }
+
+            .timeline-dot {
+                left: -1.5rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .mcf-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mcf-container">
+        <!-- Header -->
+        <header class="mcf-header">
+            <button id="mcf-theme-toggle" class="mcf-theme-toggle" aria-label="Toggle dark mode">
+                <svg class="mcf-sun-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <circle cx="10" cy="10" r="4" fill="currentColor"/>
+                    <path d="M10 0v4M10 16v4M20 10h-4M4 10H0M17.07 2.93l-2.83 2.83M5.76 14.24l-2.83 2.83M17.07 17.07l-2.83-2.83M5.76 5.76L2.93 2.93" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <svg class="mcf-moon-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" style="display:none;">
+                    <path d="M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C10.3395 3 10.6734 3.02389 11 3.07039C9.27477 4.07544 8 5.8965 8 8C8 11.3137 10.6863 14 14 14C15.1035 14 16.0754 13.6238 16.9296 12.9998C16.9762 13.3266 17 13.6605 17 14Z" fill="currentColor"/>
+                </svg>
+            </button>
+
+            <img src="https://static.wixstatic.com/media/c24a60_2b6231b666214539ae22ebd2dffe7a09~mv2.png" 
+                 alt="My College Finance Logo" 
+                 class="mcf-logo">
+            <div class="mcf-brand-name">MY COLLEGE FINANCE</div>
+            <div class="mcf-tagline">EDUCATE • MOTIVATE • ELEVATE</div>
+            <h1 class="mcf-title">FAFSA Timeline Generator</h1>
+            <p class="mcf-subtitle">Create your personalized FAFSA action plan with key deadlines and milestones</p>
+        </header>
+        
+        <!-- Input Section -->
+        <div class="input-section">
+            <h2 class="input-title">📅 Personalize Your Timeline</h2>
+            <div class="input-grid">
+                <div class="form-group">
+                    <label class="form-label" for="student-name">Student Name</label>
+                    <input type="text" id="student-name" class="form-input" placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="academic-year">Academic Year</label>
+                    <select id="academic-year" class="form-select">
+                        <option value="2025-26">2025-26 (Current)</option>
+                        <option value="2026-27">2026-27 (Next Year)</option>
+                        <option value="2027-28">2027-28 (Future)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="student-type">Student Type</label>
+                    <select id="student-type" class="form-select">
+                        <option value="high-school">High School Student</option>
+                        <option value="current-college">Current College Student</option>
+                        <option value="graduate">Graduate Student</option>
+                        <option value="adult-learner">Adult Learner</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="state">State of Residence</label>
+                    <select id="state" class="form-select">
+                        <option value="AL">Alabama</option>
+                        <option value="AK">Alaska</option>
+                        <option value="AZ">Arizona</option>
+                        <option value="AR">Arkansas</option>
+                        <option value="CA">California</option>
+                        <option value="CO">Colorado</option>
+                        <option value="CT">Connecticut</option>
+                        <option value="DE">Delaware</option>
+                        <option value="FL">Florida</option>
+                        <option value="GA">Georgia</option>
+                        <option value="HI">Hawaii</option>
+                        <option value="ID">Idaho</option>
+                        <option value="IL">Illinois</option>
+                        <option value="IN">Indiana</option>
+                        <option value="IA">Iowa</option>
+                        <option value="KS">Kansas</option>
+                        <option value="KY">Kentucky</option>
+                        <option value="LA">Louisiana</option>
+                        <option value="ME">Maine</option>
+                        <option value="MD">Maryland</option>
+                        <option value="MA">Massachusetts</option>
+                        <option value="MI">Michigan</option>
+                        <option value="MN">Minnesota</option>
+                        <option value="MS">Mississippi</option>
+                        <option value="MO">Missouri</option>
+                        <option value="MT">Montana</option>
+                        <option value="NE">Nebraska</option>
+                        <option value="NV">Nevada</option>
+                        <option value="NH">New Hampshire</option>
+                        <option value="NJ">New Jersey</option>
+                        <option value="NM">New Mexico</option>
+                        <option value="NY">New York</option>
+                        <option value="NC">North Carolina</option>
+                        <option value="ND">North Dakota</option>
+                        <option value="OH">Ohio</option>
+                        <option value="OK">Oklahoma</option>
+                        <option value="OR">Oregon</option>
+                        <option value="PA">Pennsylvania</option>
+                        <option value="RI">Rhode Island</option>
+                        <option value="SC">South Carolina</option>
+                        <option value="SD">South Dakota</option>
+                        <option value="TN">Tennessee</option>
+                        <option value="TX">Texas</option>
+                        <option value="UT">Utah</option>
+                        <option value="VT">Vermont</option>
+                        <option value="VA">Virginia</option>
+                        <option value="WA">Washington</option>
+                        <option value="WV">West Virginia</option>
+                        <option value="WI">Wisconsin</option>
+                        <option value="WY">Wyoming</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Special Circumstances (Check all that apply)</label>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="divorced-parents" class="checkbox">
+                    <label for="divorced-parents">Divorced/Separated Parents</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="remarried-parent" class="checkbox">
+                    <label for="remarried-parent">Remarried Parent</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="independent-student" class="checkbox">
+                    <label for="independent-student">Independent Student Status</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="special-circumstances" class="checkbox">
+                    <label for="special-circumstances">Special Circumstances (Job Loss, Medical, etc.)</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="appeal-planned" class="checkbox">
+                    <label for="appeal-planned">Planning to Appeal Financial Aid</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline Section -->
+        <div class="timeline-section">
+            <h2 class="timeline-title">🗓️ Your Personalized FAFSA Timeline</h2>
+            <div class="timeline-container" id="timeline-container">
+                <div class="timeline-line"></div>
+                <!-- Timeline items will be generated here -->
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button class="mcf-btn mcf-btn-primary" onclick="generateTimeline()">
+                🔄 Generate Timeline
+            </button>
+            <button class="mcf-btn mcf-btn-success" onclick="saveAndDownload()">
+                📥 Save & Download PDF
+            </button>
+            <button class="mcf-btn mcf-btn-outline" onclick="downloadTemplate()">
+                📄 Download Template
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mcf-footer">
+            <div class="mcf-footer-links">
+                <a href="https://www.mycollegefinance.com/" target="_blank" class="mcf-footer-link">Main Website</a>
+                <span>•</span>
+                <a href="https://www.mycollegefinance.com/privacy-policy" target="_blank" class="mcf-footer-link">Privacy Policy</a>
+                <span>•</span>
+                <a href="https://www.mycollegefinance.com/terms-policy" target="_blank" class="mcf-footer-link">Terms of Service</a>
+                <span>•</span>
+                <a href="https://linktr.ee/mycollegefinance" target="_blank" class="mcf-footer-link">Social Media</a>
+            </div>
+            <p class="mcf-copyright">© 2025 My College Finance. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" 
+            onerror="this.onerror=null; this.src='https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js';"></script>
+    <script>
+        // Wait for jsPDF to load
+        function waitForJsPDF(callback, maxAttempts = 50) {
+            let attempts = 0;
+            const checkJsPDF = () => {
+                attempts++;
+                if (typeof window.jspdf !== 'undefined') {
+                    callback();
+                } else if (attempts < maxAttempts) {
+                    setTimeout(checkJsPDF, 100);
+                } else {
+                    console.error('jsPDF failed to load after', maxAttempts, 'attempts');
+                    alert('PDF library failed to load. Please refresh the page and try again.');
+                }
+            };
+            checkJsPDF();
+        }
+    </script>
+    <script>
+        // Timeline data structure
+        const timelineData = {
+            '2025-26': {
+                'high-school': [
+                    {
+                        date: 'October 1, 2024',
+                        title: 'FAFSA Opens',
+                        description: 'The 2025-26 FAFSA becomes available. This is the earliest you can submit your application.',
+                        type: 'deadline',
+                        priority: true
+                    },
+                    {
+                        date: 'November 1, 2024',
+                        title: 'Priority Deadline - Many States',
+                        description: 'Submit FAFSA by this date for maximum state aid consideration. Check your state\'s specific deadline.',
+                        type: 'deadline',
+                        priority: true
+                    },
+                    {
+                        date: 'December 1, 2024',
+                        title: 'Priority Deadline - Many Colleges',
+                        description: 'Submit FAFSA by this date for maximum institutional aid consideration.',
+                        type: 'deadline',
+                        priority: true
+                    },
+                    {
+                        date: 'January 1, 2025',
+                        title: 'Tax Documents Available',
+                        description: 'Gather your 2023 tax documents and W-2s. Use IRS Data Retrieval Tool for accuracy.',
+                        type: 'priority',
+                        priority: true
+                    },
+                    {
+                        date: 'February 1, 2025',
+                        title: 'State Aid Deadlines',
+                        description: 'Many states have February 1st deadlines for state grants and scholarships.',
+                        type: 'deadline',
+                        priority: true
+                    },
+                    {
+                        date: 'March 1, 2025',
+                        title: 'College Aid Deadlines',
+                        description: 'Most colleges have March 1st deadlines for institutional aid.',
+                        type: 'deadline',
+                        priority: true
+                    },
+                    {
+                        date: 'April 1, 2025',
+                        title: 'Award Letters Arrive',
+                        description: 'Colleges begin sending financial aid award letters.',
+                        type: 'priority',
+                        priority: false
+                    },
+                    {
+                        date: 'May 1, 2025',
+                        title: 'National Decision Day',
+                        description: 'Deadline to accept admission offers and submit enrollment deposits.',
+                        type: 'deadline',
+                        priority: true
+                    }
+                ],
+                'current-college': [
+                    {
+                        date: 'October 1, 2024',
+                        title: 'FAFSA Opens',
+                        description: 'The 2025-26 FAFSA becomes available. Renew your application early for best aid packages.',
+                        type: 'deadline',
+                        priority: true
+                    },
+                    {
+                        date: 'November 1, 2024',
+                        title: 'Priority Deadline',
+                        description: 'Submit FAFSA by this date for maximum aid consideration.',
+                        type: 'deadline',
+                        priority: true
+                    },
+                    {
+                        date: 'January 1, 2025',
+                        title: 'Tax Documents Available',
+                        description: 'Gather your 2023 tax documents. Use IRS Data Retrieval Tool for accuracy.',
+                        type: 'priority',
+                        priority: true
+                    },
+                    {
+                        date: 'March 1, 2025',
+                        title: 'College Aid Deadlines',
+                        description: 'Most colleges have March 1st deadlines for institutional aid.',
+                        type: 'deadline',
+                        priority: true
+                    },
+                    {
+                        date: 'April 1, 2025',
+                        title: 'Award Letters Arrive',
+                        description: 'Your college will send your financial aid award letter.',
+                        type: 'priority',
+                        priority: false
+                    }
+                ]
+            },
+            '2026-27': {
+                'high-school': [
+                    {
+                        date: 'October 1, 2025',
+                        title: 'FAFSA Opens',
+                        description: 'The 2026-27 FAFSA becomes available. This is the earliest you can submit your application.',
+                        type: 'deadline',
+                        priority: true
+                    },
+                    {
+                        date: 'November 1, 2025',
+                        title: 'Priority Deadline - Many States',
+                        description: 'Submit FAFSA by this date for maximum state aid consideration. Check your state\'s specific deadline.',
+                        type: 'deadline',
+                        priority: true
+                    },
+                    {
+                        date: 'December 1, 2025',
+                        title: 'Priority Deadline - Many Colleges',
+                        description: 'Submit FAFSA by this date for maximum institutional aid consideration.',
+                        type: 'deadline',
+                        priority: true
+                    },
+                    {
+                        date: 'January 1, 2026',
+                        title: 'Tax Documents Available',
+                        description: 'Gather your 2024 tax documents and W-2s. Use IRS Data Retrieval Tool for accuracy.',
+                        type: 'priority',
+                        priority: true
+                    },
+                    {
+                        date: 'February 1, 2026',
+                        title: 'State Aid Deadlines',
+                        description: 'Many states have February 1st deadlines for state grants and scholarships.',
+                        type: 'deadline',
+                        priority: true
+                    },
+                    {
+                        date: 'March 1, 2026',
+                        title: 'College Aid Deadlines',
+                        description: 'Most colleges have March 1st deadlines for institutional aid.',
+                        type: 'deadline',
+                        priority: true
+                    },
+                    {
+                        date: 'April 1, 2026',
+                        title: 'Award Letters Arrive',
+                        description: 'Colleges begin sending financial aid award letters.',
+                        type: 'priority',
+                        priority: false
+                    },
+                    {
+                        date: 'May 1, 2026',
+                        title: 'National Decision Day',
+                        description: 'Deadline to accept admission offers and submit enrollment deposits.',
+                        type: 'deadline',
+                        priority: true
+                    }
+                ],
+                'current-college': [
+                    {
+                        date: 'October 1, 2025',
+                        title: 'FAFSA Opens',
+                        description: 'The 2026-27 FAFSA becomes available. Renew your application early for best aid packages.',
+                        type: 'deadline',
+                        priority: true
+                    },
+                    {
+                        date: 'November 1, 2025',
+                        title: 'Priority Deadline',
+                        description: 'Submit FAFSA by this date for maximum aid consideration.',
+                        type: 'deadline',
+                        priority: true
+                    },
+                    {
+                        date: 'January 1, 2026',
+                        title: 'Tax Documents Available',
+                        description: 'Gather your 2024 tax documents. Use IRS Data Retrieval Tool for accuracy.',
+                        type: 'priority',
+                        priority: true
+                    },
+                    {
+                        date: 'March 1, 2026',
+                        title: 'College Aid Deadlines',
+                        description: 'Most colleges have March 1st deadlines for institutional aid.',
+                        type: 'deadline',
+                        priority: true
+                    },
+                    {
+                        date: 'April 1, 2026',
+                        title: 'Award Letters Arrive',
+                        description: 'Your college will send your financial aid award letter.',
+                        type: 'priority',
+                        priority: false
+                    }
+                ]
+            },
+            '2027-28': {
+                'high-school': [
+                    {
+                        date: 'October 1, 2026',
+                        title: 'FAFSA Opens',
+                        description: 'The 2027-28 FAFSA becomes available. This is the earliest you can submit your application.',
+                        type: 'deadline',
+                        priority: true
+                    },
+                    {
+                        date: 'November 1, 2026',
+                        title: 'Priority Deadline - Many States',
+                        description: 'Submit FAFSA by this date for maximum state aid consideration. Check your state\'s specific deadline.',
+                        type: 'deadline',
+                        priority: true
+                    },
+                    {
+                        date: 'December 1, 2026',
+                        title: 'Priority Deadline - Many Colleges',
+                        description: 'Submit FAFSA by this date for maximum institutional aid consideration.',
+                        type: 'deadline',
+                        priority: true
+                    },
+                    {
+                        date: 'January 1, 2027',
+                        title: 'Tax Documents Available',
+                        description: 'Gather your 2025 tax documents and W-2s. Use IRS Data Retrieval Tool for accuracy.',
+                        type: 'priority',
+                        priority: true
+                    },
+                    {
+                        date: 'February 1, 2027',
+                        title: 'State Aid Deadlines',
+                        description: 'Many states have February 1st deadlines for state grants and scholarships.',
+                        type: 'deadline',
+                        priority: true
+                    },
+                    {
+                        date: 'March 1, 2027',
+                        title: 'College Aid Deadlines',
+                        description: 'Most colleges have March 1st deadlines for institutional aid.',
+                        type: 'deadline',
+                        priority: true
+                    },
+                    {
+                        date: 'April 1, 2027',
+                        title: 'Award Letters Arrive',
+                        description: 'Colleges begin sending financial aid award letters.',
+                        type: 'priority',
+                        priority: false
+                    },
+                    {
+                        date: 'May 1, 2027',
+                        title: 'National Decision Day',
+                        description: 'Deadline to accept admission offers and submit enrollment deposits.',
+                        type: 'deadline',
+                        priority: true
+                    }
+                ],
+                'current-college': [
+                    {
+                        date: 'October 1, 2026',
+                        title: 'FAFSA Opens',
+                        description: 'The 2027-28 FAFSA becomes available. Renew your application early for best aid packages.',
+                        type: 'deadline',
+                        priority: true
+                    },
+                    {
+                        date: 'November 1, 2026',
+                        title: 'Priority Deadline',
+                        description: 'Submit FAFSA by this date for maximum aid consideration.',
+                        type: 'deadline',
+                        priority: true
+                    },
+                    {
+                        date: 'January 1, 2027',
+                        title: 'Tax Documents Available',
+                        description: 'Gather your 2025 tax documents. Use IRS Data Retrieval Tool for accuracy.',
+                        type: 'priority',
+                        priority: true
+                    },
+                    {
+                        date: 'March 1, 2027',
+                        title: 'College Aid Deadlines',
+                        description: 'Most colleges have March 1st deadlines for institutional aid.',
+                        type: 'deadline',
+                        priority: true
+                    },
+                    {
+                        date: 'April 1, 2027',
+                        title: 'Award Letters Arrive',
+                        description: 'Your college will send your financial aid award letter.',
+                        type: 'priority',
+                        priority: false
+                    }
+                ]
+            }
+        };
+
+        // Generate timeline based on user input
+        function generateTimeline() {
+            const academicYear = document.getElementById('academic-year').value;
+            const studentType = document.getElementById('student-type').value;
+            const studentName = document.getElementById('student-name').value;
+            const state = document.getElementById('state').value;
+            
+            // Get special circumstances
+            const specialCircumstances = {
+                divorcedParents: document.getElementById('divorced-parents').checked,
+                remarriedParent: document.getElementById('remarried-parent').checked,
+                independentStudent: document.getElementById('independent-student').checked,
+                specialCircumstances: document.getElementById('special-circumstances').checked,
+                appealPlanned: document.getElementById('appeal-planned').checked
+            };
+            
+            const timelineContainer = document.getElementById('timeline-container');
+            timelineContainer.innerHTML = '<div class="timeline-line"></div>';
+            
+            // Get base timeline data
+            let timeline = [...(timelineData[academicYear]?.[studentType] || [])];
+            
+            if (timeline.length === 0) {
+                timelineContainer.innerHTML = `
+                    <div class="timeline-line"></div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">No Timeline Available</div>
+                            <div class="timeline-title-text">Please select a different academic year or student type</div>
+                            <div class="timeline-description">Timeline data is currently available for 2025-26 academic year for high school and current college students.</div>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Add special circumstance timeline items
+            const year = academicYear.split('-')[0];
+            const nextYear = academicYear.split('-')[1];
+            
+            // Add state-specific timeline items
+            if (state === 'CA') {
+                timeline.push({
+                    date: `March 2, ${nextYear}`,
+                    title: 'California Dream Act Application (CADAA)',
+                    description: 'If you are undocumented or DACA, complete the California Dream Act Application for state financial aid.',
+                    type: 'deadline',
+                    priority: true
+                });
+            } else if (state === 'TX') {
+                timeline.push({
+                    date: `January 15, ${nextYear}`,
+                    title: 'Texas Application for State Financial Aid (TASFA)',
+                    description: 'If you are undocumented or DACA, complete the TASFA for Texas state financial aid.',
+                    type: 'deadline',
+                    priority: true
+                });
+            } else if (state === 'NY') {
+                timeline.push({
+                    date: `June 30, ${nextYear}`,
+                    title: 'New York State Tuition Assistance Program (TAP)',
+                    description: 'Complete the TAP application for New York state financial aid.',
+                    type: 'deadline',
+                    priority: true
+                });
+            }
+            
+            // Add student type specific timeline items
+            if (studentType === 'graduate') {
+                timeline.push({
+                    date: `September 1, ${year}`,
+                    title: 'Graduate School Financial Aid Research',
+                    description: 'Research graduate school financial aid options including assistantships, fellowships, and research grants.',
+                    type: 'priority',
+                    priority: true
+                });
+                timeline.push({
+                    date: `December 1, ${year}`,
+                    title: 'Graduate School Applications',
+                    description: 'Submit graduate school applications with financial aid considerations.',
+                    type: 'deadline',
+                    priority: true
+                });
+            } else if (studentType === 'adult-learner') {
+                timeline.push({
+                    date: `August 1, ${year}`,
+                    title: 'Adult Learner Financial Aid Research',
+                    description: 'Research adult learner specific financial aid programs and employer tuition assistance.',
+                    type: 'priority',
+                    priority: true
+                });
+                timeline.push({
+                    date: `September 1, ${year}`,
+                    title: 'Employer Tuition Assistance',
+                    description: 'Apply for employer tuition assistance programs if available.',
+                    type: 'priority',
+                    priority: true
+                });
+            }
+            
+            if (specialCircumstances.divorcedParents || specialCircumstances.remarriedParent) {
+                timeline.push({
+                    date: `September 15, ${year}`,
+                    title: 'Gather Parent/Contributor Information',
+                    description: 'Collect tax documents and financial information from the parent who will be the FAFSA contributor. This may be different from your custodial parent.',
+                    type: 'priority',
+                    priority: true
+                });
+            }
+            
+            if (specialCircumstances.independentStudent) {
+                timeline.push({
+                    date: `September 1, ${year}`,
+                    title: 'Verify Independent Status',
+                    description: 'Review independent student criteria and gather documentation to support your independent status claim.',
+                    type: 'priority',
+                    priority: true
+                });
+            }
+            
+            if (specialCircumstances.specialCircumstances) {
+                timeline.push({
+                    date: `October 15, ${year}`,
+                    title: 'Document Special Circumstances',
+                    description: 'Gather documentation for special circumstances (job loss, medical expenses, etc.) that may affect your financial aid eligibility.',
+                    type: 'priority',
+                    priority: true
+                });
+            }
+            
+            if (specialCircumstances.appealPlanned) {
+                timeline.push({
+                    date: `March 15, ${nextYear}`,
+                    title: 'Prepare Financial Aid Appeal',
+                    description: 'Begin preparing your financial aid appeal letter and supporting documentation. Contact your college\'s financial aid office for appeal procedures.',
+                    type: 'priority',
+                    priority: true
+                });
+                timeline.push({
+                    date: `April 15, ${nextYear}`,
+                    title: 'Submit Financial Aid Appeal',
+                    description: 'Submit your financial aid appeal with all supporting documentation. Follow up with the financial aid office within 2 weeks.',
+                    type: 'deadline',
+                    priority: true
+                });
+            }
+            
+            // Sort timeline by date
+            timeline.sort((a, b) => {
+                const dateA = new Date(a.date);
+                const dateB = new Date(b.date);
+                return dateA - dateB;
+            });
+            
+            // Generate timeline items
+            timeline.forEach((item, index) => {
+                const timelineItem = document.createElement('div');
+                timelineItem.className = 'timeline-item';
+                
+                const dotClass = item.type === 'deadline' ? 'deadline' : (item.priority ? 'priority' : '');
+                
+                timelineItem.innerHTML = `
+                    <div class="timeline-dot ${dotClass}"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">${item.date}</div>
+                        <div class="timeline-title-text">${item.title}</div>
+                        <div class="timeline-description">${item.description}</div>
+                        <div class="timeline-actions">
+                            <span class="timeline-tag ${item.type}">${item.type.toUpperCase()}</span>
+                            ${item.priority ? '<span class="timeline-tag priority">PRIORITY</span>' : ''}
+                        </div>
+                    </div>
+                `;
+                
+                timelineContainer.appendChild(timelineItem);
+            });
+            
+            // Save timeline data
+            saveTimelineData();
+        }
+
+        // Save timeline data to localStorage
+        function saveTimelineData() {
+            const timelineData = {
+                studentName: document.getElementById('student-name').value,
+                academicYear: document.getElementById('academic-year').value,
+                studentType: document.getElementById('student-type').value,
+                state: document.getElementById('state').value,
+                specialCircumstances: {
+                    divorcedParents: document.getElementById('divorced-parents').checked,
+                    remarriedParent: document.getElementById('remarried-parent').checked,
+                    independentStudent: document.getElementById('independent-student').checked,
+                    specialCircumstances: document.getElementById('special-circumstances').checked,
+                    appealPlanned: document.getElementById('appeal-planned').checked
+                },
+                generatedAt: new Date().toISOString()
+            };
+            
+            localStorage.setItem('mcf-timeline-data', JSON.stringify(timelineData));
+        }
+
+        // Load saved timeline data
+        function loadTimelineData() {
+            const saved = localStorage.getItem('mcf-timeline-data');
+            if (saved) {
+                const data = JSON.parse(saved);
+                document.getElementById('student-name').value = data.studentName || '';
+                document.getElementById('academic-year').value = data.academicYear || '2025-26';
+                document.getElementById('student-type').value = data.studentType || 'high-school';
+                document.getElementById('state').value = data.state || 'CA';
+                
+                if (data.specialCircumstances) {
+                    document.getElementById('divorced-parents').checked = data.specialCircumstances.divorcedParents || false;
+                    document.getElementById('remarried-parent').checked = data.specialCircumstances.remarriedParent || false;
+                    document.getElementById('independent-student').checked = data.specialCircumstances.independentStudent || false;
+                    document.getElementById('special-circumstances').checked = data.specialCircumstances.specialCircumstances || false;
+                    document.getElementById('appeal-planned').checked = data.specialCircumstances.appealPlanned || false;
+                }
+            }
+        }
+
+        // Save and download PDF
+        function saveAndDownload() {
+            waitForJsPDF(() => {
+                try {
+                    const { jsPDF } = window.jspdf;
+                    const doc = new jsPDF();
+                    
+                    const studentName = document.getElementById('student-name').value || 'Student';
+                    const academicYear = document.getElementById('academic-year').value;
+                    const studentType = document.getElementById('student-type').value;
+                    
+                    // Simple PDF generation
+                    doc.setFontSize(20);
+                    doc.setTextColor(1, 38, 153);
+                    doc.text('MY COLLEGE FINANCE', 105, 20, { align: 'center' });
+                    
+                    doc.setFontSize(10);
+                    doc.setTextColor(100, 116, 139);
+                    doc.text('EDUCATE • MOTIVATE • ELEVATE', 105, 28, { align: 'center' });
+                    
+                    doc.setFontSize(16);
+                    doc.setTextColor(0, 0, 0);
+                    doc.text('FAFSA Timeline Generator', 105, 45, { align: 'center' });
+                    
+                    doc.setFontSize(12);
+                    doc.text(`Personalized Timeline for ${studentName}`, 105, 55, { align: 'center' });
+                    
+                    doc.setFontSize(10);
+                    doc.text(`Academic Year: ${academicYear}`, 20, 70);
+                    doc.text(`Student Type: ${studentType.replace('-', ' ').toUpperCase()}`, 20, 80);
+                    doc.text(`Generated: ${new Date().toLocaleDateString()}`, 20, 90);
+                    
+                    // Get timeline data
+                    let timeline = [...(timelineData[academicYear]?.[studentType] || [])];
+                    
+                    // Add special circumstances
+                    const specialCircumstances = {
+                        divorcedParents: document.getElementById('divorced-parents').checked,
+                        remarriedParent: document.getElementById('remarried-parent').checked,
+                        independentStudent: document.getElementById('independent-student').checked,
+                        specialCircumstances: document.getElementById('special-circumstances').checked,
+                        appealPlanned: document.getElementById('appeal-planned').checked
+                    };
+                    
+                    const state = document.getElementById('state').value;
+                    const year = academicYear.split('-')[0];
+                    const nextYear = academicYear.split('-')[1];
+                    
+                    // Add special circumstances to timeline
+                    if (specialCircumstances.divorcedParents || specialCircumstances.remarriedParent) {
+                        timeline.push({
+                            date: `September 15, ${year}`,
+                            title: 'Gather Parent/Contributor Information',
+                            description: 'Collect tax documents and financial information from the parent who will be the FAFSA contributor.'
+                        });
+                    }
+                    
+                    if (specialCircumstances.independentStudent) {
+                        timeline.push({
+                            date: `September 1, ${year}`,
+                            title: 'Verify Independent Status',
+                            description: 'Review independent student criteria and gather documentation to support your independent status claim.'
+                        });
+                    }
+                    
+                    if (specialCircumstances.specialCircumstances) {
+                        timeline.push({
+                            date: `October 15, ${year}`,
+                            title: 'Document Special Circumstances',
+                            description: 'Gather documentation for special circumstances that may affect your financial aid eligibility.'
+                        });
+                    }
+                    
+                    if (specialCircumstances.appealPlanned) {
+                        timeline.push({
+                            date: `March 15, ${nextYear}`,
+                            title: 'Prepare Financial Aid Appeal',
+                            description: 'Begin preparing your financial aid appeal letter and supporting documentation.'
+                        });
+                        timeline.push({
+                            date: `April 15, ${nextYear}`,
+                            title: 'Submit Financial Aid Appeal',
+                            description: 'Submit your financial aid appeal with all supporting documentation.'
+                        });
+                    }
+                    
+                    // Sort timeline by date
+                    timeline.sort((a, b) => {
+                        const dateA = new Date(a.date);
+                        const dateB = new Date(b.date);
+                        return dateA - dateB;
+                    });
+                    
+                    // Add timeline items to PDF
+                    let yPos = 110;
+                    doc.setFontSize(14);
+                    doc.setTextColor(0, 0, 0);
+                    doc.text('Your FAFSA Timeline:', 20, yPos);
+                    yPos += 15;
+                    
+                    timeline.forEach((item, index) => {
+                        if (yPos > 250) {
+                            doc.addPage();
+                            yPos = 20;
+                        }
+                        
+                        doc.setFontSize(10);
+                        doc.setTextColor(1, 38, 153);
+                        doc.text(item.date, 20, yPos);
+                        
+                        doc.setFontSize(12);
+                        doc.setTextColor(0, 0, 0);
+                        doc.text(item.title, 20, yPos + 8);
+                        
+                        doc.setFontSize(9);
+                        doc.setTextColor(100, 100, 100);
+                        const lines = doc.splitTextToSize(item.description, 160);
+                        doc.text(lines, 20, yPos + 16);
+                        
+                        yPos += 30;
+                    });
+                    
+                    // Add footer
+                    doc.setFontSize(8);
+                    doc.setTextColor(100, 100, 100);
+                    doc.text('© 2025 My College Finance. All rights reserved.', 105, 285, { align: 'center' });
+                    
+                    // Save the PDF
+                    doc.save(`MCF-FAFSA-Timeline-${studentName.replace(/\s+/g, '-')}.pdf`);
+                } catch (error) {
+                    console.error('Error generating PDF:', error);
+                    alert('Error generating PDF. Please try again.');
+                }
+            });
+        }
+
+        // Download blank template
+        function downloadTemplate() {
+            waitForJsPDF(() => {
+                try {
+                    const { jsPDF } = window.jspdf;
+                    const doc = new jsPDF();
+            
+            const academicYear = document.getElementById('academic-year').value;
+            const studentName = document.getElementById('student-name').value || 'Student';
+            
+            // Add MCF branding
+            doc.setFontSize(20);
+            doc.setTextColor(1, 38, 153);
+            doc.text('MY COLLEGE FINANCE', 105, 20, { align: 'center' });
+            
+            doc.setFontSize(10);
+            doc.setTextColor(100, 116, 139);
+            doc.text('EDUCATE • MOTIVATE • ELEVATE', 105, 28, { align: 'center' });
+            
+            // Add title
+            doc.setFontSize(16);
+            doc.setTextColor(0, 0, 0);
+            doc.text(`FAFSA Timeline Template - ${academicYear}`, 105, 45, { align: 'center' });
+            
+            doc.setFontSize(10);
+            doc.text(`Student Name: ${studentName}  Date: ___________`, 20, 60);
+            
+            // Add instructions
+            doc.setFontSize(12);
+            doc.text('Instructions: Use this template to create your personalized FAFSA timeline', 20, 75);
+            
+            // Get timeline data for the selected year
+            const year = academicYear.split('-')[0];
+            const nextYear = academicYear.split('-')[1];
+            
+            // Add timeline template based on academic year
+            doc.setFontSize(10);
+            let yPos = 90;
+            
+            const templateItems = [
+                `October 1, ${year}: FAFSA Opens`,
+                `November 1, ${year}: Priority Deadline - Many States`,
+                `December 1, ${year}: Priority Deadline - Many Colleges`,
+                `January 1, ${nextYear}: Tax Documents Available`,
+                `February 1, ${nextYear}: State Aid Deadlines`,
+                `March 1, ${nextYear}: College Aid Deadlines`,
+                `April 1, ${nextYear}: Award Letters Arrive`,
+                `May 1, ${nextYear}: National Decision Day`
+            ];
+            
+            templateItems.forEach((item, index) => {
+                doc.text(`${index + 1}. ${item}`, 20, yPos);
+                doc.text('Notes: _________________________________', 30, yPos + 8);
+                yPos += 20;
+            });
+            
+            // Add special circumstances section
+            if (yPos > 200) {
+                doc.addPage();
+                yPos = 20;
+            }
+            
+            doc.setFontSize(12);
+            doc.text('Special Circumstances Checklist:', 20, yPos);
+            yPos += 15;
+            
+            const specialCircumstances = [
+                '☐ Divorced/Separated Parents',
+                '☐ Remarried Parent',
+                '☐ Independent Student Status',
+                '☐ Special Circumstances (Job Loss, Medical, etc.)',
+                '☐ Planning to Appeal Financial Aid'
+            ];
+            
+            specialCircumstances.forEach((item, index) => {
+                doc.text(item, 20, yPos);
+                yPos += 12;
+            });
+            
+            // Add footer
+            doc.setFontSize(8);
+            doc.setTextColor(100, 116, 139);
+            doc.text('© 2025 My College Finance. All rights reserved.', 105, 285, { align: 'center' });
+            
+                    // Save the template
+                    doc.save(`MCF-FAFSA-Timeline-Template-${academicYear}.pdf`);
+                } catch (error) {
+                    console.error('Error generating template PDF:', error);
+                    alert('Error generating template PDF. Please try again.');
+                }
+            });
+        }
+        
+        // Dark mode implementation
+        function initDarkMode() {
+            const currentTheme = localStorage.getItem('mcf-theme') || 'light';
+            if (currentTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                updateThemeIcon(true);
+            }
+
+            const toggleDarkMode = () => {
+                const isDark = document.body.classList.toggle('dark-mode');
+                localStorage.setItem('mcf-theme', isDark ? 'dark' : 'light');
+                updateThemeIcon(isDark);
+            };
+
+            function updateThemeIcon(isDark) {
+                const sunIcons = document.querySelectorAll('.mcf-sun-icon');
+                const moonIcons = document.querySelectorAll('.mcf-moon-icon');
+                
+                sunIcons.forEach(icon => {
+                    icon.style.display = isDark ? 'none' : 'block';
+                });
+                
+                moonIcons.forEach(icon => {
+                    icon.style.display = isDark ? 'block' : 'none';
+                });
+            }
+
+            const toggleBtn = document.getElementById('mcf-theme-toggle');
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', toggleDarkMode);
+            }
+        }
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            initDarkMode();
+            loadTimelineData();
+            
+            // Auto-save on input changes
+            const inputs = document.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                input.addEventListener('change', saveTimelineData);
+            });
+        });
+    </script>
+</body>
+</html>
