@@ -6,6 +6,12 @@ An interactive educational tool designed to help students create personalized FA
 
 This project is an interactive web application that generates customized FAFSA timelines based on student type, academic year, and special circumstances. Users can input their personal information and receive a tailored timeline with important deadlines, priority dates, and actionable steps.
 
+### Try it out
+
+[Try FASFA Timeline Generator (Online Link)](https://thiinkmg.github.io/FASFA-Timeline-Generator/)
+
+---
+
 ## ✨ Features
 
 - **Personalized Timeline Generation**: Creates custom timelines based on student type and academic year
