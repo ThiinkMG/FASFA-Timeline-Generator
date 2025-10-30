@@ -32,6 +32,34 @@
             --mcf-ring: #09090b;
             --mcf-radius: 0.5rem;
             --mcf-transition: all 0.3s ease;
+
+            /* Touch Targets & Spacing */
+            --touch-target-min: 44px;
+            --touch-target-recommended: 48px;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 0.75rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-xxl: 3rem;
+
+            /* Typography Scale */
+            --font-base: 16px;
+            --font-sm: 0.875rem;
+            --font-md: 0.9375rem;
+            --font-lg: 1.125rem;
+            --font-xl: 1.25rem;
+            --font-xxl: 1.5rem;
+
+            /* Line Heights */
+            --line-height-tight: 1.2;
+            --line-height-normal: 1.5;
+            --line-height-relaxed: 1.7;
+
+            /* Responsive Container Padding */
+            --container-padding-mobile: 1rem;
+            --container-padding-tablet: 1.5rem;
+            --container-padding-desktop: 2rem;
         }
 
         /* Dark Mode Color Scheme */
@@ -145,8 +173,10 @@
             position: absolute;
             top: 0;
             right: 0;
-            width: 44px;
-            height: 44px;
+            width: 52px;
+            height: 52px;
+            min-width: var(--touch-target-recommended);
+            min-height: var(--touch-target-recommended);
             padding: 0;
             border: 2px solid var(--mcf-border);
             background: var(--mcf-card);
@@ -157,6 +187,7 @@
             justify-content: center;
             transition: var(--mcf-transition);
             color: var(--mcf-foreground);
+            touch-action: manipulation;
         }
 
         .mcf-theme-toggle:hover {
@@ -433,6 +464,8 @@
             align-items: center;
             justify-content: center;
             padding: 0.75rem 1.5rem;
+            min-height: var(--touch-target-recommended);
+            min-width: var(--touch-target-recommended);
             font-size: 1rem;
             font-weight: 600;
             border-radius: var(--mcf-radius);
@@ -442,6 +475,7 @@
             text-decoration: none;
             font-family: inherit;
             gap: 0.5rem;
+            touch-action: manipulation;
         }
 
         .mcf-btn-primary {
@@ -510,10 +544,63 @@
             color: var(--mcf-muted-foreground);
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
+        /* ========================================
+           RESPONSIVE BREAKPOINTS
+           ======================================== */
+
+        /* Tablet (768px - 1024px) */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            body {
+                font-size: 17px;
+            }
+
+            .mcf-container {
+                padding: var(--container-padding-tablet);
+            }
+
             .mcf-title {
-                font-size: 1.75rem;
+                font-size: clamp(2rem, 4vw + 1rem, 2.5rem);
+            }
+
+            .mcf-btn {
+                min-height: 52px;
+                padding: 1rem 2rem;
+                font-size: 1.125rem;
+            }
+
+            .mcf-theme-toggle {
+                width: 52px;
+                height: 52px;
+            }
+
+            .input-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Mobile (≤768px) */
+        @media (max-width: 768px) {
+            body {
+                font-size: 16px;
+            }
+
+            .mcf-container {
+                padding: var(--container-padding-mobile);
+            }
+
+            .mcf-title {
+                font-size: clamp(1.5rem, 5vw + 0.5rem, 1.75rem);
+                hyphens: none;
+                word-break: normal;
+            }
+
+            .mcf-subtitle {
+                font-size: var(--font-md);
+            }
+
+            .mcf-theme-toggle {
+                width: 48px;
+                height: 48px;
             }
 
             .input-grid {
@@ -538,6 +625,264 @@
 
             .mcf-btn {
                 width: 100%;
+                min-height: 48px;
+            }
+
+            .form-input,
+            .form-select {
+                min-height: 48px;
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+        }
+
+        /* Small mobile (≤375px) */
+        @media (max-width: 375px) {
+            .mcf-container {
+                padding: 0.75rem;
+            }
+
+            .mcf-title {
+                font-size: 1.5rem;
+            }
+
+            .input-section,
+            .timeline-section {
+                padding: 1rem;
+            }
+        }
+
+        /* ========================================
+           ACCESSIBILITY ENHANCEMENTS
+           ======================================== */
+
+        /* Enhanced focus indicators for keyboard navigation */
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible,
+        select:focus-visible {
+            outline: 3px solid var(--mcf-primary);
+            outline-offset: 2px;
+        }
+
+        /* Ensure sufficient color contrast */
+        ::selection {
+            background-color: var(--mcf-primary);
+            color: var(--mcf-primary-foreground);
+        }
+
+        /* ========================================
+           PERFORMANCE OPTIMIZATIONS
+           ======================================== */
+
+        /* Respect user motion preferences */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* ========================================
+           PRINT STYLESHEET
+           ======================================== */
+        @media print {
+            /* Reset & Cleanup */
+            * {
+                box-shadow: none !important;
+                text-shadow: none !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            /* Hide Interactive Elements */
+            .mcf-theme-toggle,
+            button,
+            .action-buttons,
+            .mcf-btn,
+            input[type="button"],
+            input[type="submit"],
+            nav,
+            .form-input,
+            .form-select,
+            .checkbox {
+                display: none !important;
+            }
+
+            /* Page Layout */
+            @page {
+                size: letter;
+                margin: 0.75in;
+            }
+
+            body {
+                width: 100% !important;
+                max-width: 100% !important;
+                font-size: 11pt !important;
+                line-height: 1.6 !important;
+                color: #000 !important;
+                background: #fff !important;
+                padding: 0 !important;
+                font-family: "Times New Roman", Times, serif !important;
+            }
+
+            .mcf-container {
+                max-width: 100% !important;
+                width: 100% !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            /* Header */
+            .mcf-header {
+                text-align: center;
+                margin-bottom: 1.5rem !important;
+                padding-bottom: 1rem !important;
+                border-bottom: 2px solid #012699 !important;
+            }
+
+            .mcf-logo {
+                width: 60px !important;
+                height: 60px !important;
+            }
+
+            .mcf-brand-name {
+                font-size: 16pt !important;
+                color: #012699 !important;
+            }
+
+            .mcf-tagline {
+                font-size: 9pt !important;
+            }
+
+            .mcf-title {
+                font-size: 18pt !important;
+                color: #000 !important;
+                background: none !important;
+                -webkit-text-fill-color: #000 !important;
+            }
+
+            .mcf-subtitle {
+                font-size: 11pt !important;
+            }
+
+            /* Typography for Print */
+            h1 {
+                font-size: 18pt !important;
+                font-weight: 900 !important;
+                color: #000 !important;
+                page-break-after: avoid !important;
+            }
+
+            h2, .input-title, .timeline-title {
+                font-size: 14pt !important;
+                font-weight: 700 !important;
+                color: #012699 !important;
+                margin: 1rem 0 0.5rem !important;
+                page-break-after: avoid !important;
+            }
+
+            p, li, td, span, div {
+                font-size: 11pt !important;
+                line-height: 1.6 !important;
+                color: #000 !important;
+                orphans: 3 !important;
+                widows: 3 !important;
+            }
+
+            /* Page Break Control */
+            .input-section,
+            .timeline-section,
+            .timeline-item {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+
+            h1, h2, h3, h4 {
+                page-break-after: avoid !important;
+                break-after: avoid !important;
+            }
+
+            /* Timeline Styling for Print */
+            .timeline-line {
+                background: #012699 !important;
+                -webkit-print-color-adjust: exact !important;
+            }
+
+            .timeline-dot {
+                background: #012699 !important;
+                border-color: #fff !important;
+                -webkit-print-color-adjust: exact !important;
+            }
+
+            .timeline-content {
+                background: #fff !important;
+                border: 1px solid #333 !important;
+                padding: 1rem !important;
+                margin-bottom: 0.5rem !important;
+            }
+
+            .timeline-date {
+                font-size: 10pt !important;
+                font-weight: 600 !important;
+                color: #012699 !important;
+            }
+
+            .timeline-title-text {
+                font-size: 11pt !important;
+                font-weight: 600 !important;
+                color: #000 !important;
+            }
+
+            .timeline-description {
+                font-size: 10pt !important;
+                color: #444 !important;
+            }
+
+            .timeline-tag {
+                font-size: 8pt !important;
+                padding: 0.15rem 0.5rem !important;
+                border: 1px solid #333 !important;
+            }
+
+            /* Footer */
+            .mcf-footer {
+                margin-top: 1rem !important;
+                padding-top: 1rem !important;
+                border-top: 1px solid #333 !important;
+            }
+
+            .mcf-footer-link {
+                color: #000 !important;
+            }
+
+            .mcf-copyright {
+                font-size: 9pt !important;
+            }
+
+            /* Input Section for Print */
+            .input-section {
+                background: #fff !important;
+                border: 1px solid #333 !important;
+                padding: 1rem !important;
+                margin-bottom: 1rem !important;
+            }
+
+            .form-label {
+                font-size: 10pt !important;
+                font-weight: 600 !important;
+                display: inline !important;
+            }
+
+            .form-label::after {
+                content: ": _______________" !important;
+            }
+
+            .form-group {
+                margin-bottom: 0.5rem !important;
             }
         }
     </style>
@@ -567,7 +912,7 @@
         
         <!-- Input Section -->
         <div class="input-section">
-            <h2 class="input-title">📅 Personalize Your Timeline</h2>
+            <h2 class="input-title">Personalize Your Timeline</h2>
             <div class="input-grid">
                 <div class="form-group">
                     <label class="form-label" for="student-name">Student Name</label>
@@ -674,7 +1019,7 @@
 
         <!-- Timeline Section -->
         <div class="timeline-section">
-            <h2 class="timeline-title">🗓️ Your Personalized FAFSA Timeline</h2>
+            <h2 class="timeline-title">Your Personalized FAFSA Timeline</h2>
             <div class="timeline-container" id="timeline-container">
                 <div class="timeline-line"></div>
                 <!-- Timeline items will be generated here -->
@@ -684,13 +1029,13 @@
         <!-- Action Buttons -->
         <div class="action-buttons">
             <button class="mcf-btn mcf-btn-primary" onclick="generateTimeline()">
-                🔄 Generate Timeline
+                Generate Timeline
             </button>
             <button class="mcf-btn mcf-btn-success" onclick="saveAndDownload()">
-                📥 Save & Download PDF
+                Save & Download PDF
             </button>
             <button class="mcf-btn mcf-btn-outline" onclick="downloadTemplate()">
-                📄 Download Template
+                Download Template
             </button>
         </div>
 
@@ -1265,7 +1610,7 @@
                     
                     doc.setFontSize(10);
                     doc.setTextColor(100, 116, 139);
-                    doc.text('EDUCATE • MOTIVATE • ELEVATE', 105, 28, { align: 'center' });
+                    doc.text('EDUCATE - MOTIVATE - ELEVATE', 105, 28, { align: 'center' });
                     
                     doc.setFontSize(16);
                     doc.setTextColor(0, 0, 0);
@@ -1400,7 +1745,7 @@
             
             doc.setFontSize(10);
             doc.setTextColor(100, 116, 139);
-            doc.text('EDUCATE • MOTIVATE • ELEVATE', 105, 28, { align: 'center' });
+            doc.text('EDUCATE - MOTIVATE - ELEVATE', 105, 28, { align: 'center' });
             
             // Add title
             doc.setFontSize(16);
@@ -1450,11 +1795,11 @@
             yPos += 15;
             
             const specialCircumstances = [
-                '☐ Divorced/Separated Parents',
-                '☐ Remarried Parent',
-                '☐ Independent Student Status',
-                '☐ Special Circumstances (Job Loss, Medical, etc.)',
-                '☐ Planning to Appeal Financial Aid'
+                '[ ] Divorced/Separated Parents',
+                '[ ] Remarried Parent',
+                '[ ] Independent Student Status',
+                '[ ] Special Circumstances (Job Loss, Medical, etc.)',
+                '[ ] Planning to Appeal Financial Aid'
             ];
             
             specialCircumstances.forEach((item, index) => {
