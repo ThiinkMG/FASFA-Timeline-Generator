@@ -189,27 +189,56 @@ hsl(235, 95%, 4%)
 #### Dark Mode
 ```css
 .dark {
-  --primary: 213 71% 50%;
-  --primary-foreground: 222.2 47.4% 11.2%;
-  --secondary: 217.2 32.6% 17.5%;
-  --secondary-foreground: 210 40% 98%;
-  --accent: 213 71% 50%;
-  --accent-foreground: 210 40% 98%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 210 40% 98%;
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
-  --border: 217.2 32.6% 17.5%;
-  --input: 217.2 32.6% 17.5%;
-  --ring: 213 71% 50%;
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
-  --card: 222.2 84% 4.9%;
-  --card-foreground: 210 40% 98%;
-  --popover: 222.2 84% 4.9%;
-  --popover-foreground: 210 40% 98%;
+  /* ===== BACKGROUNDS - Reduced eye strain with blue-gray tint ===== */
+  --background: 220 20% 10%;           /* #141a21 - Main dark background */
+  --card: 220 18% 16%;                 /* #222a34 - Card backgrounds */
+  --popover: 220 20% 14%;              /* #1a2129 - Popover/modal backgrounds */
+
+  /* ===== TEXT COLORS - Optimized readability ===== */
+  --foreground: 0 0% 92%;              /* #ebebeb - Main text (softer than pure white) */
+  --card-foreground: 0 0% 92%;         /* #ebebeb - Card text */
+  --popover-foreground: 0 0% 92%;      /* #ebebeb - Popover text */
+  --muted-foreground: 0 0% 70%;        /* #b3b3b3 - Muted text (improved readability) */
+
+  /* ===== PRIMARY (MCF Blue lightened for dark mode) ===== */
+  --primary: 218 88% 55%;              /* #2678ff - Brighter blue for visibility */
+  --primary-foreground: 0 0% 100%;     /* #ffffff - White text on blue */
+
+  /* ===== LINK COLORS (Readable blue-gray for dark mode) ===== */
+  --link: 210 80% 75%;                 /* #a3c9ff - Light blue-gray for links */
+  --link-hover: 210 80% 85%;           /* #c9e0ff - Lighter on hover */
+
+  /* ===== SECONDARY ===== */
+  --secondary: 220 15% 20%;            /* #2b3441 - Secondary backgrounds */
+  --secondary-foreground: 0 0% 92%;    /* #ebebeb - Text on secondary */
+
+  /* ===== ACCENT (Hover states) ===== */
+  --accent: 220 18% 22%;               /* #2f3a48 - Visible hover background */
+  --accent-foreground: 0 0% 96%;       /* #f5f5f5 - Text on accent */
+
+  /* ===== MUTED ===== */
+  --muted: 220 15% 18%;                /* #272f3c - Muted backgrounds */
+
+  /* ===== DESTRUCTIVE (Enhanced for visibility) ===== */
+  --destructive: 0 75% 55%;            /* #e03838 - Brighter red */
+  --destructive-foreground: 0 0% 100%; /* #ffffff - White text */
+
+  /* ===== BORDERS & INPUTS (More visible) ===== */
+  --border: 220 15% 25%;               /* #363f4d - Visible borders */
+  --input: 220 15% 30%;                /* #424d5f - Clearer input borders */
+
+  /* ===== FOCUS RING (High visibility) ===== */
+  --ring: 218 88% 65%;                 /* #4e7fff - Bright blue focus ring */
 }
 ```
+
+**Dark Mode Best Practices:**
+- **Background Colors:** Use blue-gray tints (#141a21) instead of pure black to reduce eye strain
+- **Text Colors:** Use 92% lightness (#ebebeb) instead of pure white for softer contrast
+- **Muted Text:** Use 70% lightness (#b3b3b3) for better readability than standard 63.9%
+- **Link Colors:** Always use `--link` variable (#a3c9ff) for readable blue links in dark mode
+- **Brand Blue Adaptation:** Lighten MCF blue from #012699 to #2678ff for dark mode visibility
+- **Contrast Requirements:** All text must meet WCAG AA standards (4.5:1 minimum contrast ratio)
 
 ---
 
@@ -235,13 +264,15 @@ hsl(235, 95%, 4%)
 ### Color Usage Guardrails
 
 #### ✅ DO
-- Use brand blue for all primary actions (buttons, links, CTA)
+- Use brand blue for all primary actions (buttons, links, CTA) **in light mode**
+- Use `--link` variable (#a3c9ff) for **all text links and blue text in dark mode**
 - Use brand green for success states and positive progress
 - Use brand amber sparingly for warnings and special highlights
 - Maintain sufficient contrast ratios (WCAG AA: 4.5:1 for text, AAA: 7:1 preferred)
 - Use CSS variables for all color references (e.g., `var(--brand-blue)` not `#012699`)
 - Test all colors in both light and dark modes
 - Use semantic color names (`--primary`, `--success`) for component styling
+- Use `dark:text-[hsl(var(--link))]` pattern for links that need dark mode readability
 
 #### ❌ DON'T
 - Don't use raw hex values directly in components
@@ -251,6 +282,52 @@ hsl(235, 95%, 4%)
 - Don't override brand colors with arbitrary values
 - Don't use low-contrast color combinations
 - Don't use more than 3 brand colors in a single UI element
+
+---
+
+### Dark Mode Link Implementation Examples
+
+**Standard Link (Footer, Navigation, Body Text):**
+```tsx
+<a
+  href="https://www.mycollegefinance.com/"
+  className="text-blue-600 dark:text-[hsl(var(--link))] hover:text-blue-700 dark:hover:text-[hsl(var(--link-hover))]"
+>
+  My College Finance
+</a>
+```
+
+**Title/Heading with Brand Blue:**
+```tsx
+<h2 className="text-2xl font-bold text-blue-600 dark:text-[hsl(var(--link))]">
+  Create Your Timeline
+</h2>
+```
+
+**Icon/Symbol with Blue:**
+```tsx
+<span className="text-blue-600 dark:text-[hsl(var(--link))]">✓</span>
+```
+
+**Gradient Title (Main Headlines):**
+```tsx
+<h1 className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
+  FAFSA Timeline Generator
+</h1>
+```
+
+**When to Use `--link` Variable:**
+- All text links (anchor tags with href)
+- Section titles/headings that use brand blue
+- Text-based icons or symbols (checkmarks, bullets)
+- Any blue text that needs to be readable in dark mode
+- Card titles that use brand blue color
+
+**When NOT to Use `--link` Variable:**
+- Button backgrounds (use `--primary` instead)
+- Large colored sections/banners
+- Timeline dots or status indicators (use specific timeline colors)
+- Charts and data visualizations (use chart color variables)
 
 ---
 

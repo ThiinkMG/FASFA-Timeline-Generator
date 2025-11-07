@@ -98,25 +98,32 @@ Add MCF brand colors:
     --brand-amber: hsl(45, 98%, 60%);
     --brand-black: hsl(235, 95%, 94%);
 
-    --primary: 213 71% 50%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --accent: 213 71% 50%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 213 71% 50%;
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    /* Optimized dark mode colors for readability */
+    --background: 220 20% 10%;           /* #141a21 - Blue-gray to reduce eye strain */
+    --foreground: 0 0% 92%;              /* #ebebeb - Softer than pure white */
+    --card: 220 18% 16%;                 /* #222a34 - Card backgrounds */
+    --card-foreground: 0 0% 92%;
+    --popover: 220 20% 14%;
+    --popover-foreground: 0 0% 92%;
+    --muted: 220 15% 18%;
+    --muted-foreground: 0 0% 70%;        /* #b3b3b3 - Better readability */
+
+    --primary: 218 88% 55%;              /* #2678ff - Lightened MCF blue */
+    --primary-foreground: 0 0% 100%;
+
+    /* Link colors for readable blue text in dark mode */
+    --link: 210 80% 75%;                 /* #a3c9ff - Use for all blue links/text */
+    --link-hover: 210 80% 85%;           /* #c9e0ff - Lighter on hover */
+
+    --secondary: 220 15% 20%;
+    --secondary-foreground: 0 0% 92%;
+    --accent: 220 18% 22%;
+    --accent-foreground: 0 0% 96%;
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 15% 25%;
+    --input: 220 15% 30%;
+    --ring: 218 88% 65%;
   }
 }
 
@@ -129,6 +136,20 @@ Add MCF brand colors:
     transition: var(--transition);
   }
 }
+```
+
+**Important:** When using blue text or links in your app, always use the `--link` variable for dark mode:
+```tsx
+// Links
+<a className="text-blue-600 dark:text-[hsl(var(--link))]" href="...">Link</a>
+
+// Headings
+<h2 className="text-blue-600 dark:text-[hsl(var(--link))]">Title</h2>
+
+// Gradients (use lighter shades)
+<h1 className="bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
+  Hero Title
+</h1>
 ```
 
 ### Update `tailwind.config.ts`
