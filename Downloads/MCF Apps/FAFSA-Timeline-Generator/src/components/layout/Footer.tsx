@@ -55,8 +55,7 @@ export function Footer() {
               href="https://linktr.ee/mycollegefinance"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm hover:underline"
-              style={{ color: 'var(--brand-blue)' }}
+              className="text-sm text-blue-600 dark:text-[hsl(var(--link))] hover:text-blue-700 dark:hover:text-[hsl(var(--link-hover))] hover:underline transition-colors"
             >
               Social Media Hub
             </a>

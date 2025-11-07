@@ -113,7 +113,7 @@ function App() {
           <div className="space-y-8">
             {/* Hero Section */}
             <div className="text-center space-y-4 py-8">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
                 FAFSA Timeline Generator
               </h1>
               <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
@@ -212,19 +212,19 @@ function App() {
                   </CardHeader>
                   <CardContent className="space-y-3 text-sm">
                     <div className="flex gap-2">
-                      <span className="text-blue-600 dark:text-blue-400">✓</span>
+                      <span className="text-blue-600 dark:text-[hsl(var(--link))]">✓</span>
                       <p>Submit your FAFSA as early as possible for maximum aid consideration</p>
                     </div>
                     <div className="flex gap-2">
-                      <span className="text-blue-600 dark:text-blue-400">✓</span>
+                      <span className="text-blue-600 dark:text-[hsl(var(--link))]">✓</span>
                       <p>Use the IRS Data Retrieval Tool for accurate tax information</p>
                     </div>
                     <div className="flex gap-2">
-                      <span className="text-blue-600 dark:text-blue-400">✓</span>
+                      <span className="text-blue-600 dark:text-[hsl(var(--link))]">✓</span>
                       <p>Check your state's specific deadline - some are earlier than federal</p>
                     </div>
                     <div className="flex gap-2">
-                      <span className="text-blue-600 dark:text-blue-400">✓</span>
+                      <span className="text-blue-600 dark:text-[hsl(var(--link))]">✓</span>
                       <p>Add notes to each deadline to track your progress</p>
                     </div>
                   </CardContent>

@@ -58,7 +58,7 @@ export function TimelineFormWizard({ onComplete, initialData }: TimelineFormWiza
     <Card className="w-full max-w-3xl mx-auto">
       <CardHeader>
         <div className="flex items-center justify-between mb-4">
-          <CardTitle className="text-2xl font-bold" style={{ color: 'var(--brand-blue)' }}>
+          <CardTitle className="text-2xl font-bold text-blue-600 dark:text-[hsl(var(--link))]">
             Create Your FAFSA Timeline
           </CardTitle>
           <span className="text-sm text-muted-foreground">

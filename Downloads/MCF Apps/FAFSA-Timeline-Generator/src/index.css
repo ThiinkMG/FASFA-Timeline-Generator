@@ -49,6 +49,10 @@
     --primary: 218 88% 55%;              /* #2678ff - Brighter blue for visibility */
     --primary-foreground: 0 0% 100%;     /* #ffffff - White text on blue */
 
+    /* ===== LINK COLORS (Readable blue-gray for dark mode) ===== */
+    --link: 210 80% 75%;                 /* #a3c9ff - Light blue-gray for links */
+    --link-hover: 210 80% 85%;           /* #c9e0ff - Lighter on hover */
+
     /* ===== SECONDARY ===== */
     --secondary: 220 15% 20%;            /* #2b3441 - Secondary backgrounds */
     --secondary-foreground: 0 0% 92%;    /* #ebebeb - Text on secondary */
