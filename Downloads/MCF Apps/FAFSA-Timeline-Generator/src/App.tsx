@@ -155,20 +155,20 @@ function App() {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div className="text-center p-4 rounded-lg bg-blue-50 dark:bg-blue-950/20">
-                    <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">
+                  <div className="text-center p-4 rounded-lg bg-blue-50 dark:bg-[hsl(var(--timeline-safe-bg))] border dark:border-[hsl(var(--timeline-safe-border))]">
+                    <div className="text-3xl font-bold text-blue-600 dark:text-[hsl(var(--timeline-safe))]">
                       {totalCount}
                     </div>
                     <div className="text-sm text-muted-foreground">Total Deadlines</div>
                   </div>
-                  <div className="text-center p-4 rounded-lg bg-green-50 dark:bg-green-950/20">
-                    <div className="text-3xl font-bold text-green-600 dark:text-green-400">
+                  <div className="text-center p-4 rounded-lg bg-green-50 dark:bg-[hsl(var(--timeline-complete-bg))] border dark:border-[hsl(var(--timeline-complete-border))]">
+                    <div className="text-3xl font-bold text-green-600 dark:text-[hsl(var(--timeline-complete))]">
                       {completedCount}
                     </div>
                     <div className="text-sm text-muted-foreground">Completed</div>
                   </div>
-                  <div className="text-center p-4 rounded-lg bg-purple-50 dark:bg-purple-950/20">
-                    <div className="text-3xl font-bold text-purple-600 dark:text-purple-400">
+                  <div className="text-center p-4 rounded-lg bg-purple-50 dark:bg-[hsl(var(--timeline-warning-bg))] border dark:border-[hsl(var(--timeline-warning-border))]">
+                    <div className="text-3xl font-bold text-purple-600 dark:text-[hsl(var(--timeline-warning))]">
                       {completionPercentage}%
                     </div>
                     <div className="text-sm text-muted-foreground">Progress</div>

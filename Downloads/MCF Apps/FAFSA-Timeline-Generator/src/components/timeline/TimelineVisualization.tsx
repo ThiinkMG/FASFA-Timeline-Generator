@@ -27,16 +27,18 @@ export function TimelineVisualization({
   };
 
   const getUrgencyColor = (days: number) => {
-    if (days < 0) return 'text-gray-500';
-    if (days <= 7) return 'text-red-600 dark:text-red-400';
-    if (days <= 30) return 'text-amber-600 dark:text-amber-400';
-    return 'text-blue-600 dark:text-blue-400';
+    if (days < 0) return 'text-gray-500 dark:text-[hsl(var(--timeline-past))]';
+    if (days <= 7) return 'text-red-600 dark:text-[hsl(var(--timeline-critical))]';
+    if (days <= 30) return 'text-amber-600 dark:text-[hsl(var(--timeline-warning))]';
+    return 'text-blue-600 dark:text-[hsl(var(--timeline-safe))]';
   };
 
   const getTypeColor = (type: string) => {
-    if (type === 'deadline') return 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300';
-    if (type === 'priority') return 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300';
-    return 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300';
+    if (type === 'deadline')
+      return 'bg-red-100 text-red-800 dark:bg-[hsl(var(--timeline-critical-bg))] dark:text-[hsl(var(--timeline-critical))] dark:border-[hsl(var(--timeline-critical-border))]';
+    if (type === 'priority')
+      return 'bg-amber-100 text-amber-800 dark:bg-[hsl(var(--timeline-warning-bg))] dark:text-[hsl(var(--timeline-warning))] dark:border-[hsl(var(--timeline-warning-border))]';
+    return 'bg-blue-100 text-blue-800 dark:bg-[hsl(var(--timeline-safe-bg))] dark:text-[hsl(var(--timeline-safe))] dark:border-[hsl(var(--timeline-safe-border))]';
   };
 
   return (
@@ -62,10 +64,10 @@ export function TimelineVisualization({
             <div
               className={cn(
                 'absolute -left-[57px] top-6 w-10 h-10 rounded-full flex items-center justify-center border-4 border-background z-10',
-                item.type === 'deadline' && 'bg-red-500',
-                item.type === 'priority' && 'bg-amber-500',
-                item.type === 'optional' && 'bg-blue-500',
-                isCompleted && 'bg-green-500'
+                item.type === 'deadline' && 'bg-red-500 dark:bg-[hsl(var(--timeline-critical))]',
+                item.type === 'priority' && 'bg-amber-500 dark:bg-[hsl(var(--timeline-warning))]',
+                item.type === 'optional' && 'bg-blue-500 dark:bg-[hsl(var(--timeline-safe))]',
+                isCompleted && 'bg-green-500 dark:bg-[hsl(var(--timeline-complete))]'
               )}
             >
               {isCompleted ? (
@@ -130,7 +132,7 @@ export function TimelineVisualization({
                         </div>
                       )}
                       {isPast && !isCompleted && (
-                        <div className="flex items-center gap-2 text-gray-500">
+                        <div className="flex items-center gap-2 text-gray-500 dark:text-[hsl(var(--timeline-past))]">
                           <AlertCircle className="w-4 h-4" />
                           <span className="font-medium">
                             {Math.abs(daysUntil)} days ago
@@ -138,7 +140,7 @@ export function TimelineVisualization({
                         </div>
                       )}
                       {isCompleted && (
-                        <Badge variant="outline" className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300">
+                        <Badge variant="outline" className="bg-green-100 text-green-800 dark:bg-[hsl(var(--timeline-complete-bg))] dark:text-[hsl(var(--timeline-complete))] dark:border-[hsl(var(--timeline-complete-border))]">
                           ✓ Completed
                         </Badge>
                       )}

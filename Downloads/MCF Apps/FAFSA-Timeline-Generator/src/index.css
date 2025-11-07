@@ -34,25 +34,69 @@
   }
 
   .dark {
-    --background: 235 95% 4%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 10%;
-    --card-foreground: 0 0% 98%;
-    --popover: 235 95% 4%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 213 71% 50%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
+    /* ===== BACKGROUNDS - Reduced eye strain with blue-gray tint ===== */
+    --background: 220 20% 10%;           /* #141a21 - Main dark background */
+    --card: 220 18% 16%;                 /* #222a34 - Card backgrounds */
+    --popover: 220 20% 14%;              /* #1a2129 - Popover/modal backgrounds */
+
+    /* ===== TEXT COLORS - Optimized readability ===== */
+    --foreground: 0 0% 92%;              /* #ebebeb - Main text (softer than pure white) */
+    --card-foreground: 0 0% 92%;         /* #ebebeb - Card text */
+    --popover-foreground: 0 0% 92%;      /* #ebebeb - Popover text */
+    --muted-foreground: 0 0% 70%;        /* #b3b3b3 - Muted text (improved readability) */
+
+    /* ===== PRIMARY (MCF Blue lightened for dark mode) ===== */
+    --primary: 218 88% 55%;              /* #2678ff - Brighter blue for visibility */
+    --primary-foreground: 0 0% 100%;     /* #ffffff - White text on blue */
+
+    /* ===== SECONDARY ===== */
+    --secondary: 220 15% 20%;            /* #2b3441 - Secondary backgrounds */
+    --secondary-foreground: 0 0% 92%;    /* #ebebeb - Text on secondary */
+
+    /* ===== ACCENT (Hover states) ===== */
+    --accent: 220 18% 22%;               /* #2f3a48 - Visible hover background */
+    --accent-foreground: 0 0% 96%;       /* #f5f5f5 - Text on accent */
+
+    /* ===== MUTED ===== */
+    --muted: 220 15% 18%;                /* #272f3c - Muted backgrounds */
+
+    /* ===== DESTRUCTIVE (Enhanced for visibility) ===== */
+    --destructive: 0 75% 55%;            /* #e03838 - Brighter red */
+    --destructive-foreground: 0 0% 100%; /* #ffffff - White text */
+
+    /* ===== BORDERS & INPUTS (More visible) ===== */
+    --border: 220 15% 25%;               /* #363f4d - Visible borders */
+    --input: 220 15% 30%;                /* #424d5f - Clearer input borders */
+
+    /* ===== FOCUS RING (High visibility) ===== */
+    --ring: 218 88% 65%;                 /* #4e7fff - Bright blue focus ring */
+
+    /* ===== TIMELINE URGENCY COLORS ===== */
+
+    /* Critical (≤7 days) - RED */
+    --timeline-critical: 0 75% 60%;      /* #f24444 - Bright red text */
+    --timeline-critical-bg: 0 75% 20%;   /* #660e0e - Dark red background */
+    --timeline-critical-border: 0 75% 45%; /* #b31818 - Red border */
+
+    /* Warning (8-30 days) - AMBER */
+    --timeline-warning: 38 98% 60%;      /* #fdb94b - Bright amber text */
+    --timeline-warning-bg: 38 98% 20%;   /* #664100 - Dark amber background */
+    --timeline-warning-border: 38 98% 45%; /* #cc7d00 - Amber border */
+
+    /* Safe (30+ days) - BLUE */
+    --timeline-safe: 218 88% 60%;        /* #3d7fff - Bright blue text */
+    --timeline-safe-bg: 218 88% 20%;     /* #0a2c66 - Dark blue background */
+    --timeline-safe-border: 218 88% 45%; /* #1855cc - Blue border */
+
+    /* Completed - GREEN */
+    --timeline-complete: 123 90% 50%;    /* #1cdb19 - Bright green text */
+    --timeline-complete-bg: 123 90% 15%; /* #04530a - Dark green background */
+    --timeline-complete-border: 123 90% 35%; /* #0ea60c - Green border */
+
+    /* Past/Overdue - GRAY */
+    --timeline-past: 0 0% 55%;           /* #8c8c8c - Medium gray text */
+    --timeline-past-bg: 0 0% 18%;        /* #2e2e2e - Dark gray background */
+    --timeline-past-border: 0 0% 40%;    /* #666666 - Gray border */
   }
 }
 
